@@ -1,0 +1,46 @@
+{
+  "expo": {
+    "name": "BudgetWise",
+    "slug": "budgetwise",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#f6f1e8"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.budgetwise.app",
+      "deploymentTarget": "16.0",
+      "infoPlist": {
+        "NSFaceIDUsageDescription": "Use Face ID to unlock BudgetWise."
+      }
+    },
+    "android": {
+      "package": "com.budgetwise.app",
+      "minSdkVersion": 31,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#f6f1e8"
+      }
+    },
+    "plugins": [
+      "expo-secure-store",
+      "expo-local-authentication",
+      [
+        "expo-notifications",
+        {
+          "color": "#4ea574"
+        }
+      ],
+      "expo-sqlite"
+    ],
+    "locales": {
+      "vi": "./assets/locales/vi.json"
+    }
+  }
+}
