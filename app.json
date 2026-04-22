@@ -36,11 +36,7 @@
         {
           "color": "#4ea574"
         }
-      ],
-      "expo-sqlite"
-    ],
-    "locales": {
-      "vi": "./assets/locales/vi.json"
-    }
+      ]
+    ]
   }
 }
