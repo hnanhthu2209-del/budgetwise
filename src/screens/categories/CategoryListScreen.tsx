@@ -34,7 +34,7 @@ function Inner() {
   );
 
   return (
-    <SafeAreaView style={styles.root}>
+    <SafeAreaView style={styles.root} edges={['top']}>
       <ScrollView contentContainerStyle={{ padding: 20 }}>
         <Eyebrow>This month</Eyebrow>
         <Display variant="screen" style={{ marginTop: 6 }}>Categories</Display>

@@ -48,7 +48,7 @@ export function DashboardScreen() {
   );
 
   return (
-    <SafeAreaView style={styles.root}>
+    <SafeAreaView style={styles.root} edges={['top']}>
       <ScrollView
         contentContainerStyle={{ padding: 20, paddingBottom: 120 }}
         refreshControl={<RefreshControl refreshing={false} onRefresh={reload} tintColor={colors.sage} />}

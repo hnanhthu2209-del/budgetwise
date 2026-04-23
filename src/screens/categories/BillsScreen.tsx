@@ -40,8 +40,8 @@ export function BillsScreen() {
   const paid = bills.filter(b => b.status === 'paid');
 
   return (
-    <SafeAreaView style={styles.root}>
-      <ScrollView contentContainerStyle={{ padding: 20, paddingBottom: 80 }}>
+    <SafeAreaView style={styles.root} edges={['top']}>
+      <ScrollView contentContainerStyle={{ padding: 20, paddingBottom: 120 }}>
         <Eyebrow>Bills & Payments</Eyebrow>
         <Display variant="screen" style={{ marginTop: 6 }}>
           {format(new Date(), 'MMMM')}

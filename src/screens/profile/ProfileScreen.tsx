@@ -20,7 +20,7 @@ export function ProfileScreen() {
   const setWeekendSuppress = useSettingsStore(s => s.setWeekendSuppress);
 
   return (
-    <SafeAreaView style={styles.root}>
+    <SafeAreaView style={styles.root} edges={['top']}>
       <ScrollView contentContainerStyle={{ padding: 20, paddingBottom: 60 }}>
         <Eyebrow>Profile</Eyebrow>
         <Display variant="screen" style={{ marginTop: 6 }}>
