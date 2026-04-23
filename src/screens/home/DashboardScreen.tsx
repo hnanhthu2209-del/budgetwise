@@ -68,7 +68,14 @@ export function DashboardScreen() {
         {/* Hero card */}
         <Card style={{ marginTop: 20, paddingVertical: 26 }}>
           <Eyebrow>Remaining this month</Eyebrow>
-          <Num variant="large" style={{ marginTop: 6 }} color={(snapshot?.remaining ?? 0) < 0 ? colors.coral : colors.ink}>
+          <Num
+            variant="large"
+            style={{ marginTop: 6 }}
+            color={(snapshot?.remaining ?? 0) < 0 ? colors.coral : colors.ink}
+            numberOfLines={1}
+            adjustsFontSizeToFit
+            minimumFontScale={0.6}
+          >
             {formatAmount(snapshot?.remaining ?? 0, currency)}
           </Num>
           <View style={{ flexDirection: 'row', gap: 18, marginTop: 18 }}>
@@ -120,9 +127,16 @@ export function DashboardScreen() {
 function Stat({ label, value, positive }: { label: string; value: number; positive?: boolean }) {
   const currency = useSettingsStore(s => s.currency);
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, minWidth: 0 }}>
       <Eyebrow>{label}</Eyebrow>
-      <Num variant="default" color={positive ? colors.sage : colors.ink} style={{ marginTop: 4 }}>
+      <Num
+        variant="default"
+        color={positive ? colors.sage : colors.ink}
+        style={{ marginTop: 4 }}
+        numberOfLines={1}
+        adjustsFontSizeToFit
+        minimumFontScale={0.6}
+      >
         {formatAmount(value, currency)}
       </Num>
     </View>
