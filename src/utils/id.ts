@@ -1,2 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
-export const newId = () => uuidv4();
+import * as Crypto from 'expo-crypto';
+
+export const newId = () => Crypto.randomUUID();
