@@ -27,8 +27,11 @@ export function formatAmount(amount: number, currency: Currency = 'VND'): string
 }
 
 export function formatAmountCompact(amount: number, currency: Currency = 'VND'): string {
+  const sym = symbols[currency];
+  const sign = amount < 0 ? '-' : '';
   const abs = Math.abs(amount);
-  if (abs >= 1_000_000) return `${(amount / 1_000_000).toFixed(1)}M ${symbols[currency]}`;
-  if (abs >= 1_000) return `${(amount / 1_000).toFixed(0)}K ${symbols[currency]}`;
+  if (abs >= 1_000_000_000) return `${sign}${(abs / 1_000_000_000).toFixed(1)}B ${sym}`;
+  if (abs >= 1_000_000)     return `${sign}${(abs / 1_000_000).toFixed(1)}M ${sym}`;
+  if (abs >= 1_000)         return `${sign}${(abs / 1_000).toFixed(0)}K ${sym}`;
   return formatAmount(amount, currency);
 }

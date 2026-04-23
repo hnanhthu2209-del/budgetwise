@@ -15,7 +15,7 @@ import { useBudgetStore } from '../../state/BudgetStore';
 import { useAuth } from '../../state/AuthContext';
 import { useSettingsStore } from '../../state/SettingsStore';
 import { billRepo, BillRow } from '../../data/repositories/billRepo';
-import { formatAmount } from '../../domain/currency';
+import { formatAmount, formatAmountCompact } from '../../domain/currency';
 import { daysUntil } from '../../utils/date';
 import { colors } from '../../theme/colors';
 import { text as t } from '../../theme/typography';
@@ -72,11 +72,8 @@ export function DashboardScreen() {
             variant="large"
             style={{ marginTop: 6 }}
             color={(snapshot?.remaining ?? 0) < 0 ? colors.coral : colors.ink}
-            numberOfLines={1}
-            adjustsFontSizeToFit
-            minimumFontScale={0.6}
           >
-            {formatAmount(snapshot?.remaining ?? 0, currency)}
+            {formatAmountCompact(snapshot?.remaining ?? 0, currency)}
           </Num>
           <View style={{ flexDirection: 'row', gap: 18, marginTop: 18 }}>
             <Stat label="Income" value={snapshot?.income ?? 0} />
@@ -133,11 +130,8 @@ function Stat({ label, value, positive }: { label: string; value: number; positi
         variant="default"
         color={positive ? colors.sage : colors.ink}
         style={{ marginTop: 4 }}
-        numberOfLines={1}
-        adjustsFontSizeToFit
-        minimumFontScale={0.6}
       >
-        {formatAmount(value, currency)}
+        {formatAmountCompact(value, currency)}
       </Num>
     </View>
   );
