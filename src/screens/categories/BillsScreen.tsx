@@ -3,7 +3,7 @@
 
 import React, { useCallback, useState } from 'react';
 import { View, Text, ScrollView, StyleSheet, Pressable, TextInput, Alert } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useFocusEffect } from '@react-navigation/native';
 import { format } from 'date-fns';
 import { Display } from '../../components/primitives/Display';
@@ -28,6 +28,7 @@ export function BillsScreen() {
   const currency = useSettingsStore(s => s.currency);
   const [bills, setBills] = useState<BillRow[]>([]);
   const [adding, setAdding] = useState(false);
+  const insets = useSafeAreaInsets();
 
   const reload = useCallback(async () => {
     const list = await billRepo.list(user?.id ?? null);
@@ -40,8 +41,11 @@ export function BillsScreen() {
   const paid = bills.filter(b => b.status === 'paid');
 
   return (
-    <SafeAreaView style={styles.root} edges={['top']}>
-      <ScrollView contentContainerStyle={{ padding: 20, paddingBottom: 120 }}>
+    <View style={styles.root}>
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        contentContainerStyle={{ padding: 20, paddingTop: insets.top + 12, paddingBottom: insets.bottom + 80 }}
+      >
         <Eyebrow>Bills & Payments</Eyebrow>
         <Display variant="screen" style={{ marginTop: 6 }}>
           {format(new Date(), 'MMMM')}
@@ -91,7 +95,7 @@ export function BillsScreen() {
           </View>
         )}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
