@@ -2,8 +2,9 @@
 // set up Tier 5 reminders (5d/2d/0d) at creation time.
 
 import React, { useCallback, useState } from 'react';
-import { View, Text, ScrollView, StyleSheet, Pressable, TextInput, Alert } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, Pressable, TextInput, Alert, Platform } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { useFocusEffect } from '@react-navigation/native';
 import { format } from 'date-fns';
 import { Display } from '../../components/primitives/Display';
@@ -66,8 +67,7 @@ export function BillsScreen() {
 
         {adding && (
           <AddBillForm
-            onSaved={async (b) => {
-              await scheduleBillReminders({ userId: user?.id ?? null, label: b.label, dueDate: new Date(b.due_date) });
+            onSaved={async () => {
               setAdding(false);
               await reload();
             }}
@@ -144,21 +144,37 @@ function BillRowCard({ bill, currency, onChange }: { bill: BillRow; currency: st
   );
 }
 
-function AddBillForm({ onSaved, onCancel }: { onSaved: (b: BillRow) => void; onCancel: () => void }) {
+function AddBillForm({ onSaved, onCancel }: { onSaved: () => void; onCancel: () => void }) {
   const { user } = useAuth();
   const [label, setLabel] = useState('');
   const [amount, setAmount] = useState<number | null>(null);
-  const [daysFromNow, setDaysFromNow] = useState('7');
+
+  // Default due date: 7 days from today
+  const [dueDate, setDueDate] = useState<Date>(() => {
+    const d = new Date();
+    d.setDate(d.getDate() + 7);
+    d.setHours(9, 0, 0, 0); // 9 AM notification
+    return d;
+  });
+  const [showPicker, setShowPicker] = useState(false);
 
   const save = async () => {
     if (!label.trim() || !amount || amount <= 0) return;
-    const due = new Date();
-    due.setDate(due.getDate() + Number(daysFromNow || 0));
-    // Derive a simple type from the label for internal use
     const type = label.trim().toLowerCase().split(' ')[0];
-    const b = await billRepo.add({ userId: user?.id ?? null, label: label.trim(), type, amount, dueDate: due });
+    const b = await billRepo.add({
+      userId: user?.id ?? null,
+      label: label.trim(),
+      type,
+      amount,
+      dueDate,
+    });
+    // Schedule notifications: 5 days before, 2 days before, and ON the due date
+    await scheduleBillReminders({ userId: user?.id ?? null, label: label.trim(), dueDate });
     onSaved(b);
   };
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
   return (
     <Card style={{ marginTop: 10 }}>
@@ -178,22 +194,42 @@ function AddBillForm({ onSaved, onCancel }: { onSaved: (b: BillRow) => void; onC
         <CurrencyInput value={amount} onChange={setAmount} />
       </View>
 
-      <Text style={[t.caption, { color: colors.ink3, marginTop: 12 }]}>Due in how many days?</Text>
-      <TextInput
-        value={daysFromNow}
-        onChangeText={setDaysFromNow}
-        keyboardType="number-pad"
-        placeholderTextColor={colors.ink3}
-        style={[styles.input, { marginTop: 4 }]}
-      />
-      <Text style={[t.caption, { color: colors.ink3, marginTop: 4 }]}>
-        {(() => {
-          const d = Number(daysFromNow);
-          if (!d || d < 0) return 'Due today';
-          const due = new Date();
-          due.setDate(due.getDate() + d);
-          return `Due on ${format(due, 'MMM d, yyyy')}`;
-        })()}
+      {/* Due date — tap to open picker on Android; always visible on iOS */}
+      <Text style={[t.caption, { color: colors.ink3, marginTop: 16 }]}>Due date</Text>
+
+      {Platform.OS === 'android' && (
+        <Pressable
+          onPress={() => setShowPicker(true)}
+          style={[styles.input, { marginTop: 4, justifyContent: 'center' }]}
+        >
+          <Text style={[t.bodyMedium, { color: colors.ink }]}>
+            {format(dueDate, 'MMM d, yyyy')}
+          </Text>
+        </Pressable>
+      )}
+
+      {(Platform.OS === 'ios' || showPicker) && (
+        <DateTimePicker
+          value={dueDate}
+          mode="date"
+          display={Platform.OS === 'ios' ? 'inline' : 'default'}
+          minimumDate={today}
+          onChange={(_e, date) => {
+            setShowPicker(false);
+            if (date) {
+              const d = new Date(date);
+              d.setHours(9, 0, 0, 0);
+              setDueDate(d);
+            }
+          }}
+          style={{ marginTop: 4 }}
+          themeVariant="light"
+          accentColor={colors.sage}
+        />
+      )}
+
+      <Text style={[t.caption, { color: colors.sage, marginTop: 6 }]}>
+        You'll get reminders 5 days before, 2 days before, and on this day.
       </Text>
 
       <View style={{ flexDirection: 'row', gap: 10, marginTop: 16 }}>
