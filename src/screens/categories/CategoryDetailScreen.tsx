@@ -77,12 +77,20 @@ export function CategoryDetailScreen() {
 
         <Card style={{ marginTop: 20, paddingVertical: 22 }}>
           <Eyebrow>Spent</Eyebrow>
-          <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: 6, marginTop: 4 }}>
-            <Num variant="large" color={tint}>{formatAmount(spent, currency)}</Num>
-            {cap != null && (
-              <Text style={[t.body, { color: colors.ink3 }]}> / {formatAmount(cap, currency)}</Text>
-            )}
-          </View>
+          <Num
+            variant="large"
+            color={tint}
+            style={{ marginTop: 4 }}
+            adjustsFontSizeToFit
+            numberOfLines={1}
+          >
+            {formatAmount(spent, currency)}
+          </Num>
+          {cap != null && (
+            <Text style={[t.caption, { color: colors.ink3, marginTop: 2 }]}>
+              of {formatAmount(cap, currency)} budget
+            </Text>
+          )}
           {cap != null && (
             <View style={{ marginTop: 14 }}>
               <BudgetProgressBar percentUsed={status.percentUsed} height={8} />
