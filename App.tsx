@@ -2,6 +2,11 @@
 
 import 'react-native-gesture-handler';
 import React, { useEffect } from 'react';
+import { LogBox } from 'react-native';
+
+// DateTimePicker v8 shows a deprecation warning for `onChange` on iOS inline
+// mode — the fix (onValueChange) isn't in the published types yet. Safe to ignore.
+LogBox.ignoreLogs(['DateTimePicker: `onChange` is deprecated']);
 import { ActivityIndicator, View, StyleSheet, Platform } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
