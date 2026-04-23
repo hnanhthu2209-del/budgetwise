@@ -2,8 +2,10 @@
 // budget in N categories."
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons';
 import { format } from 'date-fns';
 import { Display } from '../../components/primitives/Display';
 import { Eyebrow } from '../../components/primitives/Eyebrow';
@@ -18,6 +20,7 @@ import { colors, budgetStateColor } from '../../theme/colors';
 import { text as t } from '../../theme/typography';
 
 export function MonthlySummaryScreen() {
+  const nav = useNavigation();
   const { user } = useAuth();
   const currency = useSettingsStore(s => s.currency);
   const taxRequired = useSettingsStore(s => s.taxRequired);
@@ -36,8 +39,12 @@ export function MonthlySummaryScreen() {
 
   return (
     <SafeAreaView style={styles.root}>
-      <ScrollView contentContainerStyle={{ padding: 20 }}>
-        <Eyebrow>Monthly wrap</Eyebrow>
+      <ScrollView contentContainerStyle={{ padding: 20, paddingBottom: 60 }}>
+        <Pressable onPress={() => nav.goBack()} hitSlop={12} style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+          <Ionicons name="chevron-back" size={20} color={colors.ink2} />
+          <Text style={[{ color: colors.ink2 }]}>Back</Text>
+        </Pressable>
+        <Eyebrow style={{ marginTop: 16 }}>Monthly wrap</Eyebrow>
         <Display variant="screen" style={{ marginTop: 6 }}>
           {format(new Date(), 'MMMM')}{' '}
           <Display variant="screen" italic color={colors.sage}>summary</Display>

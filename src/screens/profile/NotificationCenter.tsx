@@ -2,9 +2,10 @@
 // so users who prefer no push can still see them (PRD §6.2).
 
 import React, { useCallback, useState } from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons';
 import { format } from 'date-fns';
 import { Display } from '../../components/primitives/Display';
 import { Eyebrow } from '../../components/primitives/Eyebrow';
@@ -16,6 +17,7 @@ import { text as t } from '../../theme/typography';
 
 export function NotificationCenter() {
   const { user } = useAuth();
+  const nav = useNavigation();
   const [rows, setRows] = useState<NotificationRow[]>([]);
 
   useFocusEffect(useCallback(() => {
@@ -23,9 +25,16 @@ export function NotificationCenter() {
   }, [user]));
 
   return (
-    <SafeAreaView style={styles.root}>
-      <ScrollView contentContainerStyle={{ padding: 20 }}>
-        <Eyebrow>History</Eyebrow>
+    <SafeAreaView style={styles.root} edges={['top']}>
+      <ScrollView contentContainerStyle={{ padding: 20, paddingBottom: 60 }}>
+
+        {/* Back button */}
+        <Pressable onPress={() => nav.goBack()} hitSlop={12} style={styles.back}>
+          <Ionicons name="chevron-back" size={20} color={colors.ink2} />
+          <Text style={[t.bodyMedium, { color: colors.ink2 }]}>Back</Text>
+        </Pressable>
+
+        <Eyebrow style={{ marginTop: 16 }}>History</Eyebrow>
         <Display variant="screen" style={{ marginTop: 6 }}>Notifications</Display>
 
         <View style={{ marginTop: 18, gap: 10 }}>
@@ -63,4 +72,7 @@ export function NotificationCenter() {
   );
 }
 
-const styles = StyleSheet.create({ root: { flex: 1, backgroundColor: colors.bg } });
+const styles = StyleSheet.create({
+  root: { flex: 1, backgroundColor: colors.bg },
+  back: { flexDirection: 'row', alignItems: 'center', gap: 4 },
+});
