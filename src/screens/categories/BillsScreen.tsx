@@ -147,7 +147,6 @@ function BillRowCard({ bill, currency, onChange }: { bill: BillRow; currency: st
 function AddBillForm({ onSaved, onCancel }: { onSaved: (b: BillRow) => void; onCancel: () => void }) {
   const { user } = useAuth();
   const [label, setLabel] = useState('');
-  const [type, setType] = useState('electricity');
   const [amount, setAmount] = useState<number | null>(null);
   const [daysFromNow, setDaysFromNow] = useState('7');
 
@@ -155,6 +154,8 @@ function AddBillForm({ onSaved, onCancel }: { onSaved: (b: BillRow) => void; onC
     if (!label.trim() || !amount || amount <= 0) return;
     const due = new Date();
     due.setDate(due.getDate() + Number(daysFromNow || 0));
+    // Derive a simple type from the label for internal use
+    const type = label.trim().toLowerCase().split(' ')[0];
     const b = await billRepo.add({ userId: user?.id ?? null, label: label.trim(), type, amount, dueDate: due });
     onSaved(b);
   };
@@ -162,15 +163,42 @@ function AddBillForm({ onSaved, onCancel }: { onSaved: (b: BillRow) => void; onC
   return (
     <Card style={{ marginTop: 10 }}>
       <Eyebrow>New bill</Eyebrow>
-      <TextInput placeholder="Label (e.g. Electricity, Rent)" value={label} onChangeText={setLabel} placeholderTextColor={colors.ink3} style={styles.input} />
-      <TextInput placeholder="Type (electricity, water, rent...)" value={type} onChangeText={setType} placeholderTextColor={colors.ink3} style={[styles.input, { marginTop: 8 }]} />
-      <View style={{ marginTop: 10 }}>
+
+      <Text style={[t.caption, { color: colors.ink3, marginTop: 12 }]}>Bill name</Text>
+      <TextInput
+        placeholder="e.g. Electricity, Rent, Netflix"
+        value={label}
+        onChangeText={setLabel}
+        placeholderTextColor={colors.ink3}
+        style={[styles.input, { marginTop: 4 }]}
+      />
+
+      <Text style={[t.caption, { color: colors.ink3, marginTop: 12 }]}>Amount</Text>
+      <View style={{ marginTop: 4 }}>
         <CurrencyInput value={amount} onChange={setAmount} />
       </View>
-      <TextInput placeholder="Due in (days)" value={daysFromNow} onChangeText={setDaysFromNow} keyboardType="number-pad" placeholderTextColor={colors.ink3} style={[styles.input, { marginTop: 8 }]} />
-      <View style={{ flexDirection: 'row', gap: 10, marginTop: 14 }}>
+
+      <Text style={[t.caption, { color: colors.ink3, marginTop: 12 }]}>Due in how many days?</Text>
+      <TextInput
+        value={daysFromNow}
+        onChangeText={setDaysFromNow}
+        keyboardType="number-pad"
+        placeholderTextColor={colors.ink3}
+        style={[styles.input, { marginTop: 4 }]}
+      />
+      <Text style={[t.caption, { color: colors.ink3, marginTop: 4 }]}>
+        {(() => {
+          const d = Number(daysFromNow);
+          if (!d || d < 0) return 'Due today';
+          const due = new Date();
+          due.setDate(due.getDate() + d);
+          return `Due on ${format(due, 'MMM d, yyyy')}`;
+        })()}
+      </Text>
+
+      <View style={{ flexDirection: 'row', gap: 10, marginTop: 16 }}>
         <Button label="Cancel" variant="ghost" onPress={onCancel} style={{ flex: 1 }} />
-        <Button label="Add" onPress={save} disabled={!label.trim() || !amount} style={{ flex: 1 }} />
+        <Button label="Add bill" onPress={save} disabled={!label.trim() || !amount} style={{ flex: 1 }} />
       </View>
     </Card>
   );
