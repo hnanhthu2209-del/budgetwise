@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, TextInput, Alert, Text } from 'react-native';
+import { View, StyleSheet, TextInput, Alert, Text, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons';
 import { Display } from '../../components/primitives/Display';
 import { Eyebrow } from '../../components/primitives/Eyebrow';
 import { Button } from '../../components/primitives/Button';
@@ -9,6 +11,7 @@ import { colors } from '../../theme/colors';
 import { fontFamily, text as t } from '../../theme/typography';
 
 export function SignUpScreen() {
+  const nav = useNavigation();
   const { signUp } = useAuth();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -33,7 +36,11 @@ export function SignUpScreen() {
   return (
     <SafeAreaView style={styles.root}>
       <View>
-        <Eyebrow>Create account</Eyebrow>
+        <Pressable onPress={() => nav.goBack()} hitSlop={12} style={styles.back}>
+          <Ionicons name="chevron-back" size={20} color={colors.ink2} />
+          <Text style={[t.bodyMedium, { color: colors.ink2 }]}>Back</Text>
+        </Pressable>
+        <Eyebrow style={{ marginTop: 16 }}>Create account</Eyebrow>
         <Display variant="screen" style={{ marginTop: 10 }}>Save your progress</Display>
         <Text style={[t.caption, { color: colors.ink3, marginTop: 8 }]}>
           Your data stays on your device. An account lets you sync across phones later.
@@ -66,6 +73,7 @@ function Field({ label, value, onChange, ...rest }: any) {
 
 const styles = StyleSheet.create({
   root: { flex: 1, padding: 24, justifyContent: 'space-between', backgroundColor: colors.bg },
+  back: { flexDirection: 'row', alignItems: 'center', gap: 4 },
   input: {
     fontFamily: fontFamily.ui,
     fontSize: 16,

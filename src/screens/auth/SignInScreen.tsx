@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet, TextInput, Alert, Text, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons';
 import { Display } from '../../components/primitives/Display';
 import { Eyebrow } from '../../components/primitives/Eyebrow';
 import { Button } from '../../components/primitives/Button';
@@ -30,7 +31,11 @@ export function SignInScreen() {
   return (
     <SafeAreaView style={styles.root}>
       <View>
-        <Eyebrow>Welcome back</Eyebrow>
+        <Pressable onPress={() => nav.goBack()} hitSlop={12} style={styles.back}>
+          <Ionicons name="chevron-back" size={20} color={colors.ink2} />
+          <Text style={[t.bodyMedium, { color: colors.ink2 }]}>Back</Text>
+        </Pressable>
+        <Eyebrow style={{ marginTop: 16 }}>Welcome back</Eyebrow>
         <Display variant="screen" style={{ marginTop: 10 }}>Sign in</Display>
 
         <Field label="Email" value={email} onChange={setEmail} placeholder="you@email.com" autoCapitalize="none" keyboardType="email-address" />
@@ -66,6 +71,7 @@ function Field({ label, value, onChange, ...rest }: any) {
 
 const styles = StyleSheet.create({
   root: { flex: 1, padding: 24, justifyContent: 'space-between', backgroundColor: colors.bg },
+  back: { flexDirection: 'row', alignItems: 'center', gap: 4 },
   input: {
     fontFamily: fontFamily.ui,
     fontSize: 16,
