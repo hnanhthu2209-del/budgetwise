@@ -1,11 +1,9 @@
-// Big tabular numeric input. Mirrors the prototype's "display" treatment for
-// numbers: JetBrains Mono, tight tracking. Strips non-digits aggressively so
-// users can paste pretty-printed amounts.
+// Big numeric input. Nunito Bold — matches the rest of the joyful redesign.
 
 import React from 'react';
 import { TextInput, TextInputProps, StyleSheet, View, Text } from 'react-native';
 import { colors } from '../theme/colors';
-import { fontFamily, text as t } from '../theme/typography';
+import { fontFamily } from '../theme/typography';
 import { Currency } from '../domain/currency';
 
 interface Props extends Omit<TextInputProps, 'value' | 'onChangeText' | 'onChange'> {
@@ -22,12 +20,16 @@ export function CurrencyInput({
   size = 'default',
   ...rest
 }: Props) {
-  const text = value == null ? '' : value.toLocaleString('en-US');
+  const display = value == null ? '' : value.toLocaleString('en-US');
+  const sym = currency === 'VND' ? '₫'
+             : currency === 'USD' ? '$'
+             : currency === 'EUR' ? '€' : '¥';
+
   return (
     <View style={[styles.wrap, size === 'large' && styles.wrapLarge]}>
       <TextInput
         {...rest}
-        value={text}
+        value={display}
         keyboardType="number-pad"
         inputMode="numeric"
         placeholder="0"
@@ -41,15 +43,8 @@ export function CurrencyInput({
           size === 'large' ? styles.inputLarge : styles.inputDefault,
         ]}
       />
-      <Text
-        style={{
-          fontFamily: fontFamily.mono,
-          color: colors.ink3,
-          fontSize: size === 'large' ? 22 : 14,
-          marginLeft: 6,
-        }}
-      >
-        {currency === 'VND' ? '₫' : currency === 'USD' ? '$' : currency === 'EUR' ? '€' : '¥'}
+      <Text style={[styles.sym, size === 'large' ? styles.symLarge : styles.symDefault]}>
+        {sym}
       </Text>
     </View>
   );
@@ -59,12 +54,18 @@ const styles = StyleSheet.create({
   wrap: { flexDirection: 'row', alignItems: 'baseline' },
   wrapLarge: { paddingVertical: 8 },
   input: {
-    fontFamily: fontFamily.monoMedium,
+    fontFamily: fontFamily.roundedBold,   // Nunito 700 Bold
     color: colors.ink,
     minWidth: 80,
     textAlign: 'left',
-    fontVariant: ['tabular-nums'],
   } as any,
-  inputDefault: { fontSize: 18, letterSpacing: -0.3 },
-  inputLarge: { fontSize: 44, letterSpacing: -1 },
+  inputDefault: { fontSize: 20, letterSpacing: -0.3 },
+  inputLarge:  { fontSize: 44, letterSpacing: -1 },
+  sym: {
+    fontFamily: fontFamily.roundedSemi,   // Nunito 600
+    color: colors.ink3,
+    marginLeft: 6,
+  },
+  symDefault: { fontSize: 16 },
+  symLarge:   { fontSize: 24 },
 });
