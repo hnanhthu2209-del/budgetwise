@@ -86,7 +86,7 @@ export function BillCalendar({ month, bills }: Props) {
   );
 }
 
-const CELL_H = 52;
+const CELL_H = 60;
 
 const styles = StyleSheet.create({
   row: { flexDirection: 'row' },
@@ -110,24 +110,24 @@ const styles = StyleSheet.create({
   },
 
   day: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
   },
   dayToday: {
-    backgroundColor: colors.mint,      // mint circle for today
+    backgroundColor: 'rgba(61,220,151,0.18)',  // soft mint tint, not solid
   },
 
   dayNum: {
-    fontFamily: fontFamily.roundedBold, // Nunito 700 Bold — matches screenshot
-    fontSize: 16,
+    fontFamily: fontFamily.uiBold,   // Inter 700 Bold — clean, geometric
+    fontSize: 22,
     color: colors.ink,
-    letterSpacing: -0.2,
+    letterSpacing: -0.3,
   },
   dayNumToday: {
-    color: '#fff',
+    color: colors.mint,              // mint green number, not white
   },
 
   dots: { flexDirection: 'row', gap: 3, marginTop: 2, height: 5 },
