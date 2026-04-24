@@ -144,9 +144,9 @@ const styles = StyleSheet.create({
     color: colors.ink2,
   },
   titleText: {
-    fontFamily: fontFamily.monoSemibold,
+    fontFamily: fontFamily.uiMedium,
     fontSize: 12,
-    letterSpacing: 2.2,
+    letterSpacing: 2.6,
     color: colors.ink2,
     textTransform: 'uppercase',
   },
