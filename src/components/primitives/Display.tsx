@@ -1,5 +1,5 @@
-// Display: enforces Instrument Serif for hero numbers, brand mark, screen
-// titles. Italic variant for emphasis (e.g. "save *more*").
+// Display: Nunito Black for screen titles and hero numbers.
+// Matches the rounded heavy sans-serif from budgetwise-main-screen.html.
 import React from 'react';
 import { Text, TextProps } from 'react-native';
 import { text as t, fontFamily } from '../../theme/typography';
@@ -27,7 +27,7 @@ export function Display({
       {...rest}
       style={[
         base,
-        italic && { fontFamily: fontFamily.displayItalic, fontStyle: 'italic' },
+        italic && { fontFamily: fontFamily.displayMed, fontStyle: 'italic' },
         { color },
         style,
       ]}

@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   emoji: { fontSize: 22 },
   mid: { flex: 1, minWidth: 0 },
   name: {
-    fontFamily: 'Inter_700Bold',
+    fontFamily: 'Nunito_700Bold',
     fontSize: 14,
     letterSpacing: -0.2,
     color: colors.ink,
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   },
   right: { alignItems: 'flex-end', minWidth: 56 },
   amt: {
-    fontFamily: 'JetBrainsMono_600SemiBold',
+    fontFamily: 'Nunito_800ExtraBold',
     fontSize: 14,
     letterSpacing: -0.3,
   },
