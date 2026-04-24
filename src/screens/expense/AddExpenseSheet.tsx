@@ -64,10 +64,10 @@ export function AddExpenseSheet() {
         <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
           <View style={styles.header}>
             <Pressable onPress={() => nav.goBack()} hitSlop={12}>
-              <Text style={[t.bodyMedium, { color: colors.ink2 }]}>Cancel</Text>
+              <Text style={styles.cancelText}>Cancel</Text>
             </Pressable>
-            <Eyebrow>Add expense</Eyebrow>
-            <View style={{ width: 50 }} />
+            <Text style={styles.titleText}>ADD EXPENSE</Text>
+            <View style={{ width: 60 }} />
           </View>
 
           <View style={styles.amountWrap}>
@@ -94,7 +94,7 @@ export function AddExpenseSheet() {
                     onPress={() => setCategory(c)}
                     style={[styles.chip, on && styles.chipOn]}
                   >
-                    <Text style={[t.bodyMedium, { color: on ? colors.paper : colors.ink }]}>
+                    <Text style={[styles.chipText, { color: on ? '#fff' : colors.ink }]}>
                       {CATEGORY_LABELS[c]}
                     </Text>
                   </Pressable>
@@ -137,7 +137,24 @@ export function AddExpenseSheet() {
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.bg },
   scroll: { padding: 20, paddingBottom: 40 },
-  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 },
+  cancelText: {
+    fontFamily: fontFamily.uiMedium,
+    fontSize: 16,
+    color: colors.ink2,
+  },
+  titleText: {
+    fontFamily: fontFamily.monoSemibold,
+    fontSize: 12,
+    letterSpacing: 2.2,
+    color: colors.ink2,
+    textTransform: 'uppercase',
+  },
+  chipText: {
+    fontFamily: fontFamily.roundedBold,
+    fontSize: 15,
+    letterSpacing: -0.1,
+  },
   amountWrap: {
     backgroundColor: colors.card,
     borderRadius: 18,

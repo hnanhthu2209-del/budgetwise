@@ -5,7 +5,7 @@ import React from 'react';
 import { ActivityIndicator, View, StyleSheet } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useAuth } from '../state/AuthContext';
-import { TabNavigator } from './TabNavigator';
+import { TabNavigatorWithFAB as TabNavigator } from './TabNavigator';
 import { WelcomeScreen } from '../screens/onboarding/WelcomeScreen';
 import { CurrencyPickScreen } from '../screens/onboarding/CurrencyPickScreen';
 import { IncomeSetupScreen } from '../screens/onboarding/IncomeSetupScreen';

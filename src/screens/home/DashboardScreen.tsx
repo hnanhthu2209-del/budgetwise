@@ -213,17 +213,7 @@ export function DashboardScreen() {
         </View>
       </ScrollView>
 
-      {/* FAB */}
-      <Pressable style={styles.fab} onPress={() => nav.navigate('AddExpense')} hitSlop={10}>
-        <LinearGradient
-          colors={['#FF6B6B', '#FF9F45', '#FF7AC6']}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={styles.fabGrad}
-        >
-          <Text style={styles.fabPlus}>+</Text>
-        </LinearGradient>
-      </Pressable>
+      {/* FAB lives in TabNavigator center slot */}
     </SafeAreaView>
   );
 }
@@ -433,29 +423,4 @@ const styles = StyleSheet.create({
     color: colors.violet,
   },
 
-  // FAB
-  fab: {
-    position: 'absolute',
-    right: 20,
-    bottom: 24,
-    borderRadius: 30,
-    shadowColor: '#FF6B6B',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.45,
-    shadowRadius: 16,
-    elevation: 8,
-  },
-  fabGrad: {
-    width: 62,
-    height: 62,
-    borderRadius: 31,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  fabPlus: {
-    color: '#fff',
-    fontSize: 30,
-    marginTop: -3,
-    fontFamily: 'Inter_400Regular',
-  },
 });

@@ -60,7 +60,7 @@ export function BillsScreen() {
           <Eyebrow>Upcoming</Eyebrow>
           {!adding && (
             <Pressable onPress={() => setAdding(true)} hitSlop={10}>
-              <Text style={[t.bodyMedium, { color: colors.sage }]}>+ Add bill</Text>
+              <Text style={{ fontFamily: fontFamily.roundedBold, fontSize: 14, color: colors.mint }}>+ Add bill</Text>
             </Pressable>
           )}
         </View>
@@ -135,8 +135,8 @@ function BillRowCard({ bill, currency, onChange }: { bill: BillRow; currency: st
             {bill.status === 'partial' ? ' · partial' : ''}
           </Text>
         </View>
-        <View style={{ alignItems: 'flex-end', gap: 4 }}>
-          <Num>{formatAmount(bill.amount, currency as any)}</Num>
+        <View style={{ alignItems: 'flex-end', gap: 6 }}>
+          <Text style={styles.billAmt}>{formatAmount(bill.amount, currency as any)}</Text>
           {bill.status !== 'paid' && <DueDateBadge daysUntil={d} />}
         </View>
       </View>
@@ -244,8 +244,14 @@ const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.bg },
   billRow: {
     flexDirection: 'row', alignItems: 'center',
-    paddingVertical: 14,
+    paddingVertical: 16,
     borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: colors.hair,
+  },
+  billAmt: {
+    fontFamily: fontFamily.roundedBold,   // Nunito Bold — matches screenshot
+    fontSize: 16,
+    letterSpacing: -0.3,
+    color: colors.ink,
   },
   input: {
     fontFamily: fontFamily.ui, fontSize: 16, color: colors.ink,
