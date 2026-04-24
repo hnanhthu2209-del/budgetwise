@@ -1,13 +1,12 @@
 import React from 'react';
 import { View, Pressable, Text, StyleSheet } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { CategoryStatus, CATEGORY_LABELS } from '../domain/budget';
-import { Card } from './primitives/Card';
-import { Num } from './primitives/Num';
-import { Eyebrow } from './primitives/Eyebrow';
 import { BudgetProgressBar } from './BudgetProgressBar';
-import { colors, budgetStateColor } from '../theme/colors';
+import { CATEGORY_ACCENT } from '../theme/categoryTheme';
+import { colors } from '../theme/colors';
 import { text as t } from '../theme/typography';
-import { Currency, formatAmount } from '../domain/currency';
+import { Currency, formatAmountCompact } from '../domain/currency';
 
 interface Props {
   status: CategoryStatus;
@@ -16,48 +15,105 @@ interface Props {
 }
 
 export function CategoryCard({ status, currency = 'VND', onPress }: Props) {
-  const tint = budgetStateColor(status.percentUsed);
+  const accent = CATEGORY_ACCENT[status.category];
   const pct = Math.round(status.percentUsed * 100);
+
   return (
-    <Pressable onPress={onPress}>
-      <Card>
-        <View style={styles.row}>
-          <View style={{ flex: 1 }}>
-            <Eyebrow>{CATEGORY_LABELS[status.category]}</Eyebrow>
-            <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: 6, marginTop: 6 }}>
-              <Num variant="default">{formatAmount(status.spent, currency)}</Num>
-              {status.cap != null && (
-                <Text style={[t.caption, { color: colors.ink3 }]}>
-                  / {formatAmount(status.cap, currency)}
-                </Text>
-              )}
-            </View>
-          </View>
-          {status.cap != null && (
-            <View style={{ alignItems: 'flex-end' }}>
-              <Num variant="default" color={tint}>{pct}%</Num>
-              {status.tier >= 4 && (
-                <Text style={[t.caption, { color: colors.coral, marginTop: 2 }]}>Over budget</Text>
-              )}
-              {status.tier === 3 && (
-                <Text style={[t.caption, { color: colors.coral, marginTop: 2 }]}>Almost full</Text>
-              )}
-              {status.tier === 2 && (
-                <Text style={[t.caption, { color: colors.amber, marginTop: 2 }]}>Slow down</Text>
-              )}
-            </View>
-          )}
+    <Pressable onPress={onPress} style={({ pressed }) => [styles.card, pressed && { opacity: 0.85 }]}>
+      {/* Icon bubble */}
+      <View style={[styles.iconBubble, { backgroundColor: accent.iconBg }]}>
+        <Text style={styles.emoji}>{accent.emoji}</Text>
+      </View>
+
+      {/* Middle: name + progress bar */}
+      <View style={styles.mid}>
+        <Text style={styles.name} numberOfLines={1}>{CATEGORY_LABELS[status.category]}</Text>
+        <View style={{ marginTop: 6 }}>
+          <BudgetProgressBar
+            percentUsed={status.percentUsed}
+            height={5}
+            startColor={accent.gradStart}
+            endColor={accent.gradEnd}
+          />
         </View>
         {status.cap != null && (
-          <View style={{ marginTop: 12 }}>
-            <BudgetProgressBar percentUsed={status.percentUsed} />
-          </View>
+          <Text style={styles.capLabel} numberOfLines={1}>
+            {formatAmountCompact(status.spent, currency)} / {formatAmountCompact(status.cap, currency)}
+          </Text>
         )}
-      </Card>
+        {status.cap == null && (
+          <Text style={styles.capLabel}>No limit set</Text>
+        )}
+      </View>
+
+      {/* Right: amount + status */}
+      <View style={styles.right}>
+        <Text style={[styles.amt, { color: accent.gradStart }]}>
+          {formatAmountCompact(status.spent, currency)}
+        </Text>
+        {status.cap != null && (
+          <Text style={styles.pctLabel}>{Math.min(pct, 999)}%</Text>
+        )}
+        {status.tier >= 4 && <Text style={[styles.badge, { color: colors.coral }]}>Over!</Text>}
+        {status.tier === 3 && <Text style={[styles.badge, { color: colors.tangerine }]}>Almost</Text>}
+      </View>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-  row: { flexDirection: 'row', alignItems: 'center' },
+  card: {
+    backgroundColor: colors.card,
+    borderRadius: 18,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    shadowColor: '#1F1A2E',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.07,
+    shadowRadius: 12,
+    elevation: 3,
+  },
+  iconBubble: {
+    width: 44,
+    height: 44,
+    borderRadius: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  emoji: { fontSize: 22 },
+  mid: { flex: 1, minWidth: 0 },
+  name: {
+    fontFamily: 'Inter_700Bold',
+    fontSize: 14,
+    letterSpacing: -0.2,
+    color: colors.ink,
+  },
+  capLabel: {
+    fontFamily: 'Inter_400Regular',
+    fontSize: 11,
+    color: colors.ink3,
+    marginTop: 4,
+    letterSpacing: 0.2,
+  },
+  right: { alignItems: 'flex-end', minWidth: 56 },
+  amt: {
+    fontFamily: 'JetBrainsMono_600SemiBold',
+    fontSize: 14,
+    letterSpacing: -0.3,
+  },
+  pctLabel: {
+    fontFamily: 'JetBrainsMono_400Regular',
+    fontSize: 11,
+    color: colors.ink3,
+    marginTop: 2,
+  },
+  badge: {
+    fontFamily: 'Inter_700Bold',
+    fontSize: 10,
+    letterSpacing: 0.2,
+    marginTop: 2,
+  },
 });

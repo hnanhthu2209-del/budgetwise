@@ -1,41 +1,54 @@
-// Design tokens lifted from ~/Downloads/BudgetWise.html (lines 13–31).
-// Calm minimal palette: warm off-white + sage + muted amber.
+// Joyful palette — ported from budgetwise-main-screen.html design tokens.
+// Vibrant gradients: coral + tangerine hero, violet + pink accents, mint savings.
 
 export const colors = {
-  bg:        '#f6f1e8',  // warm off-white page background
-  paper:     '#fffaf1',  // app surface / scroll background
-  card:      '#ffffff',  // raised cards
-  ink:       '#1a1e1a',  // primary text
-  ink2:      '#4e554c',  // secondary text
-  ink3:      '#8a8f86',  // tertiary text / labels
-  hair:      '#ebe2d2',  // hairline borders & dividers
+  // Backgrounds
+  bg:          '#FFF8EE',   // warm cream page
+  paper:       '#FFF8EE',
+  card:        '#FFFFFF',   // raised card surface
 
-  sage:      '#4ea574',  // primary accent — on-budget, savings, success
-  sageSoft:  '#d1ecd7',
-  sageInk:   '#1f5a3a',
+  // Text
+  ink:         '#1F1A2E',   // deep purple-black
+  ink2:        '#6B6478',   // secondary / muted
+  ink3:        '#9E95AB',   // tertiary / placeholder
+  hair:        '#F1E6D0',   // hairline borders
 
-  amber:     '#e2a93a',  // warning — Tier 2–3 nudges (70%, 90%)
-  amberSoft: '#fce6b8',
+  // Brand accent spectrum
+  coral:       '#FF6B6B',
+  tangerine:   '#FF9F45',
+  sun:         '#FFD23F',
+  mint:        '#3DDC97',
+  sky:         '#4FB7F0',
+  violet:      '#8B5CF6',
+  pink:        '#FF7AC6',
 
-  coral:     '#e36a5a',  // urgent — Tier 4 over-budget, overdue bills
-  coralSoft: '#ffd8d0',
+  // Soft tint variants
+  coralSoft:   '#FFE4DC',
+  tangerineSoft:'#FFF1E8',
+  mintSoft:    '#D5F5E5',
+  skySoft:     '#E5F4FF',
+  violetSoft:  '#EDE9FF',
+  amberSoft:   '#FFF1E8',
 
-  sky:       '#4e8fc9',  // info — bills, neutral chips, links
-  skySoft:   '#d2e4f4',
+  // Legacy aliases (used in bills / notification screens)
+  sage:        '#3DDC97',
+  sageSoft:    '#D5F5E5',
+  sageInk:     '#0F5132',
+  amber:       '#FF9F45',
 } as const;
 
 export type ColorToken = keyof typeof colors;
 
-// Semantic helpers — map budget state to a color
+// Semantic helpers — map budget percentage to a colour
 export function budgetStateColor(percentUsed: number): string {
   if (percentUsed >= 1.0) return colors.coral;
   if (percentUsed >= 0.9) return colors.coral;
-  if (percentUsed >= 0.7) return colors.amber;
-  return colors.sage;
+  if (percentUsed >= 0.7) return colors.tangerine;
+  return colors.mint;
 }
 
 export function budgetStateSoftColor(percentUsed: number): string {
   if (percentUsed >= 0.9) return colors.coralSoft;
-  if (percentUsed >= 0.7) return colors.amberSoft;
-  return colors.sageSoft;
+  if (percentUsed >= 0.7) return colors.tangerineSoft;
+  return colors.mintSoft;
 }

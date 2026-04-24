@@ -170,7 +170,7 @@ function AddBillForm({ onSaved, onCancel }: { onSaved: () => void; onCancel: () 
     });
     // Schedule notifications: 5 days before, 2 days before, and ON the due date
     await scheduleBillReminders({ userId: user?.id ?? null, label: label.trim(), dueDate });
-    onSaved(b);
+    onSaved();
   };
 
   const today = new Date();

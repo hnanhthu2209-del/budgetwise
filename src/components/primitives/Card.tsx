@@ -15,9 +15,12 @@ export function Card({ children, style, padded = true }: Props) {
 const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.card,
-    borderRadius: 18,
-    borderWidth: 1,
-    borderColor: colors.hair,
+    borderRadius: 20,
+    shadowColor: '#1F1A2E',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.07,
+    shadowRadius: 14,
+    elevation: 3,
   },
   padded: { padding: 18 },
 });

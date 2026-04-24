@@ -15,6 +15,7 @@ import { BudgetProgressBar } from '../../components/BudgetProgressBar';
 import { ExpenseListItem } from '../../components/ExpenseListItem';
 import { CurrencyInput } from '../../components/CurrencyInput';
 import { CategoryId, CATEGORY_LABELS, statusForCategory } from '../../domain/budget';
+import { CATEGORY_ACCENT } from '../../theme/categoryTheme';
 import { CATEGORY_SUBTYPES } from './categoryConfig';
 import { expenseRepo, ExpenseRow } from '../../data/repositories/expenseRepo';
 import { budgetCapRepo } from '../../data/repositories/budgetCapRepo';
@@ -50,6 +51,7 @@ export function CategoryDetailScreen() {
   const spent = expenses.reduce((acc, e) => acc + e.amount, 0);
   const status = statusForCategory(category, spent, cap);
   const tint = budgetStateColor(status.percentUsed);
+  const accent = CATEGORY_ACCENT[category];
 
   const saveCap = async () => {
     if (capDraft != null && capDraft > 0) {
@@ -68,12 +70,19 @@ export function CategoryDetailScreen() {
     <SafeAreaView style={styles.root}>
       <ScrollView contentContainerStyle={{ padding: 20, paddingBottom: 40 }}>
         <Pressable onPress={() => nav.goBack()} hitSlop={12}>
-          <Text style={[t.bodyMedium, { color: colors.ink2 }]}>← Back</Text>
+          <Text style={[t.bodyMedium, { color: colors.violet }]}>← Back</Text>
         </Pressable>
-        <Eyebrow style={{ marginTop: 14 }}>This month</Eyebrow>
-        <Display variant="screen" style={{ marginTop: 6 }}>
-          {CATEGORY_LABELS[category]}
-        </Display>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 14, marginTop: 18 }}>
+          <View style={[styles.headerIcon, { backgroundColor: accent.iconBg }]}>
+            <Text style={{ fontSize: 28 }}>{accent.emoji}</Text>
+          </View>
+          <View>
+            <Eyebrow>This month</Eyebrow>
+            <Display variant="screen" style={{ marginTop: 4 }}>
+              {CATEGORY_LABELS[category]}
+            </Display>
+          </View>
+        </View>
 
         <Card style={{ marginTop: 20, paddingVertical: 22 }}>
           <Eyebrow>Spent</Eyebrow>
@@ -93,7 +102,12 @@ export function CategoryDetailScreen() {
           )}
           {cap != null && (
             <View style={{ marginTop: 14 }}>
-              <BudgetProgressBar percentUsed={status.percentUsed} height={8} />
+              <BudgetProgressBar
+                percentUsed={status.percentUsed}
+                height={8}
+                startColor={accent.gradStart}
+                endColor={accent.gradEnd}
+              />
               <Text style={[t.caption, { color: colors.ink3, marginTop: 8 }]}>
                 {Math.round(status.percentUsed * 100)}% used · {formatAmount(Math.max(0, cap - spent), currency)} remaining
               </Text>
@@ -186,6 +200,13 @@ export function CategoryDetailScreen() {
 
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.bg },
+  headerIcon: {
+    width: 60,
+    height: 60,
+    borderRadius: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 10 },
   chip: {
     paddingHorizontal: 14,
