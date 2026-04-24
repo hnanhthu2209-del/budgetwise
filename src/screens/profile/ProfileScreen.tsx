@@ -31,9 +31,9 @@ export function ProfileScreen() {
         )}
 
         {mode === 'guest' && (
-          <Card style={{ marginTop: 20, backgroundColor: colors.sageSoft, borderColor: colors.sage }}>
-            <Eyebrow color={colors.sageInk}>Save your data</Eyebrow>
-            <Text style={[t.body, { color: colors.sageInk, marginTop: 8 }]}>
+          <Card style={{ marginTop: 20, backgroundColor: colors.violetSoft }}>
+            <Eyebrow color={colors.violet}>Save your data</Eyebrow>
+            <Text style={[t.body, { color: colors.ink, marginTop: 8 }]}>
               Create a free account to keep your budget safe if you switch phones.
             </Text>
             <View style={{ flexDirection: 'row', gap: 10, marginTop: 14 }}>
