@@ -1,17 +1,17 @@
-// Typography stack — joyful redesign.
-// Nunito:         display headlines, screen titles, hero numbers (rounded, heavy)
-// Inter:          UI body, buttons, list items
-// JetBrains Mono: monospaced numbers, eyebrow labels (tabular-nums, tight tracking)
+// Typography stack — airy revision.
+// Nunito 700 Bold:   screen titles, headings (lighter than the previous 900 Black)
+// Inter:             UI body, eyebrow labels, buttons
+// JetBrains Mono:    currency/date numbers (tabular figures)
 
 import { TextStyle } from 'react-native';
 
 export const fontFamily = {
-  // Display / headings — Nunito rounded sans
-  display:      'Nunito_900Black',
-  displayBold:  'Nunito_800ExtraBold',
-  displayMed:   'Nunito_700Bold',
+  // Display / headings — Nunito Bold (was 900 Black; dropped two weights for air)
+  display:      'Nunito_700Bold',       // screen titles, main headings
+  displayBold:  'Nunito_800ExtraBold',  // hero numbers, emphasis
+  displayMed:   'Nunito_600SemiBold',   // sub-headings, card labels
 
-  // Kept for any legacy references (no longer used for titles)
+  // Legacy aliases (kept so any import that references these still compiles)
   displaySerif:       'InstrumentSerif_400Regular',
   displaySerifItalic: 'InstrumentSerif_400Regular_Italic',
 
@@ -21,12 +21,12 @@ export const fontFamily = {
   uiSemibold:'Inter_600SemiBold',
   uiBold:    'Inter_700Bold',
 
-  // Nunito UI aliases (for new screens that want full-Nunito)
+  // Nunito convenience aliases
   rounded:       'Nunito_400Regular',
   roundedSemi:   'Nunito_600SemiBold',
   roundedBold:   'Nunito_700Bold',
   roundedXBold:  'Nunito_800ExtraBold',
-  roundedBlack:  'Nunito_900Black',
+  roundedBlack:  'Nunito_900Black',     // kept for FAB/avatar if ever needed
 
   // Monospaced numbers
   mono:        'JetBrainsMono_400Regular',
@@ -35,24 +35,24 @@ export const fontFamily = {
 } as const;
 
 export const text: Record<string, TextStyle> = {
-  // Display — Nunito Black (matches HTML h1 font-weight: 800–900)
+  // Display — Nunito Bold (lighter, more air)
   hero: {
-    fontFamily: fontFamily.display,
-    fontSize: 56,
-    lineHeight: 60,
-    letterSpacing: -1.2,
-  },
-  title: {
-    fontFamily: fontFamily.display,
-    fontSize: 34,
-    lineHeight: 40,
+    fontFamily: fontFamily.displayBold,   // 800 ExtraBold for the very largest numbers
+    fontSize: 52,
+    lineHeight: 58,
     letterSpacing: -0.8,
   },
+  title: {
+    fontFamily: fontFamily.display,       // 700 Bold
+    fontSize: 32,
+    lineHeight: 38,
+    letterSpacing: -0.5,
+  },
   screenTitle: {
-    fontFamily: fontFamily.display,
-    fontSize: 28,
-    lineHeight: 34,
-    letterSpacing: -0.6,
+    fontFamily: fontFamily.display,       // 700 Bold
+    fontSize: 26,
+    lineHeight: 32,
+    letterSpacing: -0.4,
   },
 
   // UI — Inter
@@ -72,13 +72,13 @@ export const text: Record<string, TextStyle> = {
     lineHeight: 18,
   },
   button: {
-    fontFamily: fontFamily.roundedBold,
+    fontFamily: fontFamily.roundedBold,   // Nunito 700 Bold
     fontSize: 15,
     lineHeight: 20,
-    letterSpacing: 0.2,
+    letterSpacing: 0.1,
   },
 
-  // Numbers — JetBrains Mono
+  // Numbers — JetBrains Mono (tabular figures for currency)
   numLarge: {
     fontFamily: fontFamily.monoMedium,
     fontSize: 32,
@@ -98,12 +98,13 @@ export const text: Record<string, TextStyle> = {
     letterSpacing: -0.2,
   },
 
-  // Eyebrows / labels — JetBrains Mono uppercase
+  // Eyebrow labels — Inter Regular, airy uppercase tracking
+  // Previously JetBrains Mono which felt technical/dense.
   eyebrow: {
-    fontFamily: fontFamily.monoMedium,
+    fontFamily: fontFamily.uiMedium,      // Inter 500 Medium — lighter and more open
     fontSize: 11,
     lineHeight: 14,
-    letterSpacing: 1.4,
+    letterSpacing: 1.8,                   // more air between letters
     textTransform: 'uppercase',
   },
 };

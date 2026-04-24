@@ -100,9 +100,9 @@ const styles = StyleSheet.create({
   },
   right: { alignItems: 'flex-end', minWidth: 56 },
   amt: {
-    fontFamily: 'Nunito_800ExtraBold',
+    fontFamily: 'Nunito_700Bold',
     fontSize: 14,
-    letterSpacing: -0.3,
+    letterSpacing: -0.2,
   },
   pctLabel: {
     fontFamily: 'JetBrainsMono_400Regular',

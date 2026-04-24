@@ -231,9 +231,9 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   nameText: {
-    fontFamily: 'Nunito_800ExtraBold',
-    fontSize: 22,
-    letterSpacing: -0.4,
+    fontFamily: 'Nunito_700Bold',
+    fontSize: 21,
+    letterSpacing: -0.3,
     color: colors.ink,
   },
   avatar: {
@@ -300,9 +300,9 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   heroAmount: {
-    fontFamily: 'Nunito_900Black',
-    fontSize: 44,
-    letterSpacing: -1.2,
+    fontFamily: 'Nunito_800ExtraBold',
+    fontSize: 42,
+    letterSpacing: -0.8,
     color: '#fff',
     marginBottom: 4,
   },
@@ -356,9 +356,9 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   statVal: {
-    fontFamily: 'Nunito_800ExtraBold',
-    fontSize: 18,
-    letterSpacing: -0.4,
+    fontFamily: 'Nunito_700Bold',
+    fontSize: 17,
+    letterSpacing: -0.3,
   },
   statSub: {
     fontFamily: 'Inter_400Regular',
@@ -412,9 +412,9 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   sectionTitle: {
-    fontFamily: 'Nunito_800ExtraBold',
-    fontSize: 17,
-    letterSpacing: -0.3,
+    fontFamily: 'Nunito_700Bold',
+    fontSize: 16,
+    letterSpacing: -0.2,
     color: colors.ink,
   },
   seeAll: {
