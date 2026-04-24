@@ -224,11 +224,11 @@ function AddBillForm({ onSaved, onCancel }: { onSaved: () => void; onCancel: () 
           }}
           style={{ marginTop: 4 }}
           themeVariant="light"
-          accentColor={colors.sage}
+          accentColor={colors.pink}
         />
       )}
 
-      <Text style={[t.caption, { color: colors.sage, marginTop: 6 }]}>
+      <Text style={[t.caption, { color: colors.pink, marginTop: 6 }]}>
         You'll get reminders 5 days before, 2 days before, and on this day.
       </Text>
 
