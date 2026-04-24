@@ -16,6 +16,8 @@ import { AddExpenseSheet } from '../screens/expense/AddExpenseSheet';
 import { IncomeScreen } from '../screens/income/IncomeScreen';
 import { NotificationCenter } from '../screens/profile/NotificationCenter';
 import { MonthlySummaryScreen } from '../screens/summary/MonthlySummaryScreen';
+import { CategoryDetailScreen } from '../screens/categories/CategoryDetailScreen';
+import { CategoryListScreen } from '../screens/categories/CategoryListScreen';
 import { colors } from '../theme/colors';
 
 const Stack = createNativeStackNavigator();
@@ -60,6 +62,8 @@ export function RootNavigator() {
           <Stack.Screen name="Income" component={IncomeScreen} />
           <Stack.Screen name="NotificationCenter" component={NotificationCenter} />
           <Stack.Screen name="MonthlySummary" component={MonthlySummaryScreen} />
+          <Stack.Screen name="CategoryDetail" component={CategoryDetailScreen} />
+          <Stack.Screen name="CategoryList" component={CategoryListScreen} />
         </>
       )}
     </Stack.Navigator>

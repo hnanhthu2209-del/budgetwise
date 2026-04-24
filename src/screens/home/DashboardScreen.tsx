@@ -191,7 +191,7 @@ export function DashboardScreen() {
         <View style={styles.section}>
           <View style={styles.sectionHead}>
             <Text style={styles.sectionTitle}>Categories</Text>
-            <Pressable onPress={() => nav.navigate('Categories')}>
+            <Pressable onPress={() => nav.navigate('CategoryList')}>
               <Text style={styles.seeAll}>See all →</Text>
             </Pressable>
           </View>
@@ -201,12 +201,7 @@ export function DashboardScreen() {
                 key={c.category}
                 status={c}
                 currency={currency}
-                onPress={() =>
-                  nav.navigate('Categories', {
-                    screen: 'CategoryDetail',
-                    params: { category: c.category },
-                  })
-                }
+                onPress={() => nav.navigate('CategoryDetail', { category: c.category })}
               />
             ))}
           </View>

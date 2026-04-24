@@ -1,57 +1,64 @@
-// Per-category visual identity: emoji icon + gradient colour pair.
-// Matches the accent system in budgetwise-main-screen.html.
+// Per-category visual identity.
+// Chart colours taken directly from finance-tracker.html donut segments.
 
 import { CategoryId } from '../domain/budget';
 
 export interface CategoryAccent {
   emoji: string;
-  iconBg: string;          // icon bubble background (solid tint)
-  gradStart: string;       // progress bar gradient start
-  gradEnd: string;         // progress bar gradient end
-  textColor: string;       // label/amount colour on the card
+  iconBg: string;
+  gradStart: string;   // progress bar / chart colour (start)
+  gradEnd: string;     // progress bar gradient end
+  chartColor: string;  // flat colour used in the donut legend + dot
+  textColor: string;   // label colour on accent backgrounds
 }
 
 export const CATEGORY_ACCENT: Record<CategoryId, CategoryAccent> = {
   food: {
     emoji: '🍜',
-    iconBg: 'rgba(255,107,107,0.15)',
-    gradStart: '#FF6B6B',
-    gradEnd:   '#FF9F45',
-    textColor: '#C0392B',
+    iconBg: 'rgba(232,77,138,0.12)',
+    gradStart: '#E84D8A',
+    gradEnd:   '#F0923A',
+    chartColor: '#E84D8A',
+    textColor: '#A01060',
   },
   shopping: {
     emoji: '🛍️',
-    iconBg: 'rgba(255,122,198,0.18)',
-    gradStart: '#FF7AC6',
-    gradEnd:   '#8B5CF6',
-    textColor: '#6D28D9',
+    iconBg: 'rgba(240,146,58,0.15)',
+    gradStart: '#F0923A',
+    gradEnd:   '#E84D8A',
+    chartColor: '#F0923A',
+    textColor: '#A05010',
   },
   transportation: {
     emoji: '🚕',
-    iconBg: 'rgba(79,183,240,0.18)',
-    gradStart: '#4FB7F0',
-    gradEnd:   '#8B5CF6',
+    iconBg: 'rgba(90,171,223,0.15)',
+    gradStart: '#5AABDF',
+    gradEnd:   '#7C5CBF',
+    chartColor: '#5AABDF',
     textColor: '#1D6FA4',
   },
   entertainment: {
     emoji: '🎮',
-    iconBg: 'rgba(139,92,246,0.18)',
-    gradStart: '#8B5CF6',
-    gradEnd:   '#FF7AC6',
-    textColor: '#6D28D9',
+    iconBg: 'rgba(59,173,117,0.15)',
+    gradStart: '#3BAD75',
+    gradEnd:   '#3CC9A0',
+    chartColor: '#3BAD75',
+    textColor: '#1A6B44',
   },
   bills: {
     emoji: '⚡',
-    iconBg: 'rgba(255,159,69,0.20)',
-    gradStart: '#FF9F45',
-    gradEnd:   '#FF6B6B',
-    textColor: '#B45309',
+    iconBg: 'rgba(124,92,191,0.15)',
+    gradStart: '#7C5CBF',
+    gradEnd:   '#5AABDF',
+    chartColor: '#7C5CBF',
+    textColor: '#5A3E9A',
   },
   tax: {
     emoji: '📋',
-    iconBg: 'rgba(61,220,151,0.20)',
-    gradStart: '#3DDC97',
-    gradEnd:   '#4FB7F0',
-    textColor: '#0F5132',
+    iconBg: 'rgba(60,201,160,0.15)',
+    gradStart: '#3CC9A0',
+    gradEnd:   '#5AABDF',
+    chartColor: '#3CC9A0',
+    textColor: '#1A7A60',
   },
 };

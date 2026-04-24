@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { DashboardScreen } from '../screens/home/DashboardScreen';
-import { CategoryListScreen } from '../screens/categories/CategoryListScreen';
+import { WrapScreen } from '../screens/wrap/WrapScreen';
 import { BillsScreen } from '../screens/categories/BillsScreen';
 import { ProfileScreen } from '../screens/profile/ProfileScreen';
 import { colors } from '../theme/colors';
@@ -12,14 +12,12 @@ import { fontFamily } from '../theme/typography';
 
 const Tab = createBottomTabNavigator();
 
-// Dummy screen — the center tab never actually renders, it's intercepted by tabPress
 function NullScreen() { return null; }
 
-// The raised gradient "+" button that sits in the middle of the tab bar
 function CenterFAB({ onPress }: { onPress: () => void }) {
   return (
     <View style={styles.fabWrap} pointerEvents="box-none">
-      <Pressable onPress={onPress} style={({ pressed }) => [{ opacity: pressed ? 0.85 : 1 }]}>
+      <Pressable onPress={onPress} style={({ pressed }) => [{ opacity: pressed ? 0.82 : 1 }]}>
         <LinearGradient
           colors={['#FF6B6B', '#FF9F45', '#FF7AC6']}
           start={{ x: 0, y: 0 }}
@@ -33,89 +31,6 @@ function CenterFAB({ onPress }: { onPress: () => void }) {
   );
 }
 
-export function TabNavigator() {
-  return (
-    <Tab.Navigator
-      screenOptions={{
-        headerShown: false,
-        tabBarActiveTintColor: colors.violet,
-        tabBarInactiveTintColor: colors.ink3,
-        tabBarStyle: styles.tabBar,
-        tabBarLabelStyle: styles.label,
-        tabBarItemStyle: { paddingTop: 6 },
-      }}
-    >
-      <Tab.Screen
-        name="Home"
-        component={DashboardScreen}
-        options={{
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'home' : 'home-outline'} size={22} color={color} />
-          ),
-        }}
-      />
-
-      <Tab.Screen
-        name="Categories"
-        component={CategoryListScreen}
-        options={{
-          tabBarLabel: 'Categories',
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'grid' : 'grid-outline'} size={22} color={color} />
-          ),
-        }}
-      />
-
-      {/* Centre FAB — intercept tabPress, never navigate to NullScreen */}
-      <Tab.Screen
-        name="Add"
-        component={NullScreen}
-        options={{
-          tabBarLabel: () => null,
-          tabBarIcon: () => null,
-          tabBarButton: () => null,   // hide default slot; we render CenterFAB via tabBarBackground trick below
-        }}
-        listeners={({ navigation }) => ({
-          tabPress: e => {
-            e.preventDefault();
-            navigation.navigate('AddExpense');
-          },
-        })}
-      />
-
-      <Tab.Screen
-        name="Bills"
-        component={BillsScreen}
-        options={{
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'calendar' : 'calendar-outline'} size={22} color={color} />
-          ),
-        }}
-      />
-
-      <Tab.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{
-          tabBarLabel: 'Me',
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'person-circle' : 'person-circle-outline'} size={22} color={color} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
-  );
-}
-
-// We render the FAB via a floating absolute-positioned sibling.
-// Because tabBarButton: () => null removes the center slot entirely,
-// we need a different approach: render the FAB as a custom tabBarButton component.
-
-// ── Re-export a version that wires the FAB properly ──────────────────────────
-// The cleanest pattern is to keep 4 real tabs and add the FAB as an absolute
-// view rendered by a custom tabBar. We use tabBarBackground to inject it.
-
-// Actually let's just use tabBarButton on the "Add" screen to render our FAB.
 export function TabNavigatorWithFAB() {
   return (
     <Tab.Navigator
@@ -138,26 +53,24 @@ export function TabNavigatorWithFAB() {
       />
 
       <Tab.Screen
-        name="Categories"
-        component={CategoryListScreen}
+        name="Wrap"
+        component={WrapScreen}
         options={{
-          tabBarLabel: 'Categories',
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'grid' : 'grid-outline'} size={22} color={color} />
+            <Ionicons name={focused ? 'sparkles' : 'sparkles-outline'} size={22} color={color} />
           ),
         }}
       />
 
-      {/* Centre FAB slot */}
+      {/* Centre FAB — intercepted by tabPress */}
       <Tab.Screen
         name="Add"
         component={NullScreen}
         options={{
           tabBarLabel: () => null,
-          tabBarButton: (props) => {
-            // props.onPress triggers the listeners below
-            return <CenterFAB onPress={props.onPress as () => void} />;
-          },
+          tabBarButton: (props) => (
+            <CenterFAB onPress={props.onPress as () => void} />
+          ),
         }}
         listeners={({ navigation }) => ({
           tabPress: e => {
@@ -191,6 +104,9 @@ export function TabNavigatorWithFAB() {
   );
 }
 
+// Keep old export name as alias so any remaining imports don't break
+export { TabNavigatorWithFAB as TabNavigator };
+
 const styles = StyleSheet.create({
   tabBar: {
     backgroundColor: Platform.OS === 'ios' ? 'rgba(255,255,255,0.94)' : '#fff',
@@ -210,12 +126,11 @@ const styles = StyleSheet.create({
     fontSize: 11,
     letterSpacing: 0.1,
   },
-  // FAB styles
   fabWrap: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: -28,        // lifts the circle above the tab bar
+    marginTop: -28,
   },
   fab: {
     width: 58,
