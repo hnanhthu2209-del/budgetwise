@@ -1,8 +1,10 @@
-// Num: enforces JetBrains Mono with tabular numerals everywhere money or
-// dates render. Variants align with theme/typography.ts.
+// Num: currency and date numbers.
+// Large variant → Nunito Bold (matches redesign).
+// Default/small → Inter SemiBold (clean, compact).
+
 import React from 'react';
 import { Text, TextProps, StyleSheet } from 'react-native';
-import { text as t } from '../../theme/typography';
+import { fontFamily } from '../../theme/typography';
 import { colors } from '../../theme/colors';
 
 type NumVariant = 'large' | 'default' | 'small';
@@ -19,20 +21,22 @@ export function Num({
   ...rest
 }: NumProps) {
   const base =
-    variant === 'large' ? t.numLarge : variant === 'small' ? t.numSmall : t.num;
+    variant === 'large' ? styles.large
+    : variant === 'small' ? styles.small
+    : styles.default;
   return (
-    <Text
-      {...rest}
-      // tabular-nums on iOS via fontVariant; Android picks it up from the
-      // bundled JetBrainsMono Regular which already ships tabular figures.
-      style={[base, { color, fontVariant: ['tabular-nums'] }, style]}
-    />
+    <Text {...rest} style={[base, { color }, style]} />
   );
 }
 
 export const numStyles = StyleSheet.create({
-  // For inline composition when callers want raw style refs.
-  large: t.numLarge,
-  default: t.num,
-  small: t.numSmall,
+  large:   { fontFamily: fontFamily.roundedBold, fontSize: 32, letterSpacing: -0.6, lineHeight: 36 },
+  default: { fontFamily: fontFamily.uiSemibold,  fontSize: 16, letterSpacing: -0.2, lineHeight: 22 },
+  small:   { fontFamily: fontFamily.uiMedium,    fontSize: 13, letterSpacing: -0.1, lineHeight: 18 },
+});
+
+const styles = StyleSheet.create({
+  large:   { fontFamily: fontFamily.roundedBold, fontSize: 32, letterSpacing: -0.6, lineHeight: 36 },
+  default: { fontFamily: fontFamily.uiSemibold,  fontSize: 16, letterSpacing: -0.2, lineHeight: 22 },
+  small:   { fontFamily: fontFamily.uiMedium,    fontSize: 13, letterSpacing: -0.1, lineHeight: 18 },
 });
