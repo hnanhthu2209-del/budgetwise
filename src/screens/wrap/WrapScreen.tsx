@@ -228,7 +228,7 @@ export function WrapScreen() {
           <>
             {/* Hero savings card */}
             <LinearGradient
-              colors={['#C46DE8', '#7C5CBF', '#5AABDF']}
+              colors={['#6B72E8', '#9B7BE8', '#BA8EF0']}
               start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
               style={styles.heroCard}
             >
